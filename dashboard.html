@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-3xl font-bold mb-6">Dashboard</h2>
+<div class="mb-6 flex items-center justify-between">
+  <form method="GET" action="{{ url_for('dashboard') }}" class="flex items-center gap-2">
+    <input name="q" value="{{ q }}" placeholder="Search files by name" class="px-3 py-2 border rounded-md" />
+    <button class="px-3 py-2 bg-indigo-600 text-white rounded-md">Search</button>
+    <a href="{{ url_for('dashboard') }}" class="px-3 py-2 border rounded-md">Clear</a>
+  </form>
+  <a href="{{ url_for('upload') }}" class="px-4 py-2 bg-green-600 text-white rounded-md">Upload new file</a>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+  <div>
+    <h3 class="text-xl font-semibold mb-4">Your Files</h3>
+    <div class="space-y-4">
+      {% for f in my_files %}
+      <div class="p-4 bg-white shadow rounded-xl">
+        <div class="flex justify-between items-start">
+          <div>
+            <div class="font-medium text-lg">{{ f.filename }}</div>
+            <div class="text-sm text-gray-500">{{ f.file_metadata or 'No description' }}</div>
+            <div class="text-xs text-gray-400 mt-1">{{ f.size|human_size }}</div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <a href="{{ url_for('download', file_id=f.id) }}" class="px-3 py-1 bg-emerald-600 text-white rounded-md">Download</a>
+
+            <details class="relative">
+              <summary class="px-3 py-1 bg-blue-600 text-white rounded-md cursor-pointer">Edit</summary>
+              <form action="{{ url_for('edit_metadata') }}" method="POST" class="mt-2 p-3 bg-gray-50 rounded-md">
+                <input type="hidden" name="file_id" value="{{ f.id }}">
+                <label class="text-sm">Description</label>
+                <input name="description" value="{{ f.file_metadata or '' }}" class="w-full mt-1 p-2 border rounded-md">
+                <div class="mt-2 flex justify-end">
+                  <button class="px-3 py-1 bg-blue-600 text-white rounded-md">Save</button>
+                </div>
+              </form>
+            </details>
+
+            <form action="{{ url_for('delete_file', file_id=f.id) }}" method="POST" onsubmit="return confirm('Delete this file permanently?');">
+              <button class="px-3 py-1 bg-red-600 text-white rounded-md">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div class="text-gray-500">You have no files yet.</div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div>
+    <h3 class="text-xl font-semibold mb-4">Shared with You</h3>
+    <div class="space-y-4">
+      {% for f in shared_files %}
+      <div class="p-4 bg-white shadow rounded-xl flex justify-between items-center">
+        <div>
+          <div class="font-medium">{{ f.filename }}</div>
+          <div class="text-sm text-gray-500">{{ f.file_metadata or 'No description' }}</div>
+        </div>
+        <a href="{{ url_for('download', file_id=f.id) }}" class="px-3 py-1 bg-emerald-600 text-white rounded-md">Download</a>
+      </div>
+      {% else %}
+      <div class="text-gray-500">No files shared with you.</div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

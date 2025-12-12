@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-lg mx-auto bg-white p-8 rounded-xl shadow">
+  <h2 class="text-2xl font-bold mb-6">Upload a File</h2>
+  <form method="POST" enctype="multipart/form-data" class="space-y-5">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">File</label>
+      <input type="file" name="file" required class="block w-full text-sm text-gray-600">
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Description (optional)</label>
+      <input name="description" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+    </div>
+    <button type="submit" class="w-full py-2 bg-indigo-600 text-white rounded-lg">Upload File</button>
+  </form>
+</div>
+{% endblock %}

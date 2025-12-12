@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Your Files</h2>
+<ul>
+{% for f in files %}
+  <li>{{ f.filename }} — <a href="/download/{{ f.id }}">Download</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

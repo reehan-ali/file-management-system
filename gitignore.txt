@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+env/
+venv/
+ENV/
+.venv/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Instance data: DB, uploads, secret key
+instance/sfm.db
+instance/key.key
+instance/uploads/
+instance/*.sqlite3
+
+# Python packaging
+pip-wheel-metadata/
+*.egg-info/
+
+# Logs
+*.log
+
+# Mac / Linux temp
+*.swp
+venv/
+__pycache__/
+*.pyc
